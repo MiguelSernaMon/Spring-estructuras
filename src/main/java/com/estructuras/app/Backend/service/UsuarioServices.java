@@ -8,6 +8,7 @@ import com.estructuras.app.Backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.estructuras.app.Backend.models.Usuario;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +28,11 @@ public class UsuarioServices {
         return repository.findAll();
     }
     
+    public static String decodeString(String input) {
+        byte[] decodedBytes = Base64.getDecoder().decode(input);
+        return new String(decodedBytes);
+    }
+    
     public Optional<Usuario> getUserById(Long id){
         return repository.findById(id);
     }
@@ -36,7 +42,8 @@ public class UsuarioServices {
     }
     
     public Usuario createUser(Usuario usuario) {
-        String hashedPassword = passwordEncoder.encode(usuario.getPassword());
+        String decodedPass = decodeString(usuario.getPassword());
+        String hashedPassword = passwordEncoder.encode(decodedPass);
         usuario.setPassword(hashedPassword);
         return repository.save(usuario);
     }

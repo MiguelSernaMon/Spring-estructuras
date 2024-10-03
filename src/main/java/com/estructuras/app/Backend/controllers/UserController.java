@@ -57,7 +57,9 @@ public class UserController {
         Optional<Usuario> optionalUsuario = service.getUserByEmail(loginRequest.getEmail());
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
-            boolean isPasswordValid = service.checkPassword(usuario, loginRequest.getPass());
+            String decodedPassword = service.decodeString(loginRequest.getPass());
+            System.out.println(decodedPassword);
+            boolean isPasswordValid = service.checkPassword(usuario, decodedPassword);
             return ResponseEntity.ok(isPasswordValid);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
