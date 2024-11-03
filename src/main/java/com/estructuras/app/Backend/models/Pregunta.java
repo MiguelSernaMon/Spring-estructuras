@@ -27,17 +27,16 @@ public class Pregunta {
 
     @ManyToOne
     @JoinColumn(name = "id_dificultad", nullable = false)
-    private Dificultad dificultad; // Relación con la tabla de niveles de dificultad.
+    private DificultadPregunta dificultad; // Relación con la tabla de niveles de dificultad.
 
     // Constructor vacío (requerido por JPA)
     public Pregunta() {}
 
     // Constructor con parámetros
-    public Pregunta(Leccion leccion, String enunciado, TipoPregunta tipoPregunta, Dificultad dificultad) {
+    public Pregunta(Leccion leccion, String enunciado, TipoPregunta tipoPregunta, DificultadPregunta dificultad) {
         this.leccion = leccion;
         this.enunciado = enunciado;
         this.tipoPregunta = tipoPregunta;
         this.dificultad = dificultad;
     }
-
 }
