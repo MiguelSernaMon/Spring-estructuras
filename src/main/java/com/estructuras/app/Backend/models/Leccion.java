@@ -1,8 +1,12 @@
 package com.estructuras.app.Backend.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "lecciones")
 public class Leccion {
 
