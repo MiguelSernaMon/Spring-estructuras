@@ -21,6 +21,9 @@ public class Pregunta {
     @Column(name = "enunciado", nullable = false)
     private String enunciado; // Enunciado o texto de la pregunta.
 
+    @Column(name = "respondida", nullable = false)
+    private Boolean respondida;
+
     @ManyToOne
     @JoinColumn(name = "id_tipo", nullable = false)
     private TipoPregunta tipoPregunta; // Relación con la tabla de tipos de preguntas.
@@ -28,6 +31,7 @@ public class Pregunta {
     @ManyToOne
     @JoinColumn(name = "id_dificultad", nullable = false)
     private DificultadPregunta dificultad; // Relación con la tabla de niveles de dificultad.
+
 
     // Constructor vacío (requerido por JPA)
     public Pregunta() {}

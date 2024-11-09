@@ -15,8 +15,6 @@ public class LeccionController {
     LeccionServices service;
     @GetMapping
     public List<Leccion> getAllLessons(@RequestParam(required = true) String courseId) {
-        System.out.println(courseId);
-        System.out.println("holaaa");
         return service.getLessonsByCursoId(1L);
 
     }
