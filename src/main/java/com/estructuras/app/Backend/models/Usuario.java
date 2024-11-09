@@ -4,12 +4,8 @@
  */
 package com.estructuras.app.Backend.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,9 +31,9 @@ public class Usuario {
     @Column(name = "password", nullable = false)
     private String password;  // Password field added
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id_liga")
-//    private Liga liga;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_liga")
+    private Liga liga;
 
     @Column(name = "puntos_liga", nullable = false)
     private int puntosLiga;

@@ -4,6 +4,7 @@
  */
 package com.estructuras.app.Backend.service;
 
+import com.estructuras.app.Backend.models.Liga;
 import com.estructuras.app.Backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,10 @@ public class UsuarioServices {
         String decodedPass = decodeString(usuario.getPassword());
         String hashedPassword = passwordEncoder.encode(decodedPass);
         usuario.setPassword(hashedPassword);
+        Liga leagueNewUser = new Liga();
+        leagueNewUser.setNombre("Liga de Otoño");
+        leagueNewUser.setId(3);
+        usuario.setLiga(leagueNewUser);
         return repository.save(usuario);
     }
     

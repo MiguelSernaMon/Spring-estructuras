@@ -4,6 +4,7 @@
  */
 package com.estructuras.app.Backend.controllers;
 
+import com.estructuras.app.Backend.dto.LoginResponse;
 import com.estructuras.app.Backend.models.LoginRequest;
 import com.estructuras.app.Backend.service.UsuarioServices;
 import java.util.List;
@@ -53,17 +54,20 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<Boolean> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
         Optional<Usuario> optionalUsuario = service.getUserByEmail(loginRequest.getEmail());
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
             String decodedPassword = service.decodeString(loginRequest.getPass());
             System.out.println(decodedPassword);
             boolean isPasswordValid = service.checkPassword(usuario, decodedPassword);
-            return ResponseEntity.ok(isPasswordValid);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+            if (isPasswordValid) {
+                LoginResponse response = new LoginResponse(isPasswordValid, usuario.getId());
+                return ResponseEntity.ok(response);
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(false, null));
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse(false, null));
     }
 
     @PutMapping("{id}")
