@@ -78,17 +78,6 @@ public class RespuestaXUsuarioServices {
             respUser.setFecha(new Timestamp(System.currentTimeMillis()));
             respuestaRepository.save(respUser);
         }
-
-        // Map entity to DTO
-        RespuestaXUsuarioDTO respUserDTO = new RespuestaXUsuarioDTO(
-                respUser.getId(),
-                respUser.getUsuario(),
-                respUser.getRespuesta(),
-                respUser.isEsCorrecta(),
-                respUser.getNumeroIntentos(),
-                respUser.getFecha()
-        );
-
-        return ResponseEntity.ok("holaaa");
+        return ResponseEntity.ok("answer send");
     }
 }
