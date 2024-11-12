@@ -1,11 +1,13 @@
 package com.estructuras.app.Backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Getter
 @Setter
@@ -14,7 +16,7 @@ public class RespuestaXUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // Identificador único de cada respuesta de un usuario.
+    private Long id; // Identificador único de cada respuesta de un usuario.
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
