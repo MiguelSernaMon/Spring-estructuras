@@ -16,6 +16,7 @@ public class RespuestaXUsuarioController {
     public ResponseEntity<?> sendResponse(@RequestParam String idUsuario,
                                           @RequestParam String idRespuesta,
                                           @RequestParam String isCorrect){
-        return  service.sendAnswer(Long.valueOf(idUsuario),Long.valueOf(idRespuesta),Boolean.getBoolean(isCorrect));
+        System.out.println("Boollean 1 is: " + isCorrect);
+        return  service.sendAnswer(Long.valueOf(idUsuario),Long.valueOf(idRespuesta),Boolean.parseBoolean(isCorrect));
     }
 }

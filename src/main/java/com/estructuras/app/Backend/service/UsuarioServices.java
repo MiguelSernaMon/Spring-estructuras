@@ -4,6 +4,7 @@
  */
 package com.estructuras.app.Backend.service;
 
+import com.estructuras.app.Backend.dto.UsuarioLigaDTO;
 import com.estructuras.app.Backend.models.Liga;
 import com.estructuras.app.Backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class UsuarioServices {
     public static String decodeString(String input) {
         byte[] decodedBytes = Base64.getDecoder().decode(input);
         return new String(decodedBytes);
+    }
+
+    public Optional<UsuarioLigaDTO> getUserLigaById(Long id) {
+        Optional<Usuario> usuario = repository.findById(id);
+        if (usuario.isPresent()) {
+            Usuario u = usuario.get();
+            // Retornamos el DTO con la ligaId y los puntos
+            return Optional.of(new UsuarioLigaDTO(u.getLiga() != null ? u.getLiga().getId() : null, u.getPuntosLiga()));
+        }
+        return Optional.empty();
     }
     
     public Optional<Usuario> getUserById(Long id){

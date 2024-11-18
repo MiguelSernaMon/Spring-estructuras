@@ -1,6 +1,4 @@
 package com.estructuras.app.Backend.service;
-
-import com.estructuras.app.Backend.dto.RespuestaXUsuarioDTO;
 import com.estructuras.app.Backend.models.Liga;
 import com.estructuras.app.Backend.models.Respuesta;
 import com.estructuras.app.Backend.models.RespuestaXUsuario;
@@ -32,6 +30,7 @@ public class RespuestaXUsuarioServices {
 
 
     public ResponseEntity<?> sendAnswer(Long userId, Long answerId, Boolean isCorrect) {
+        System.out.println("BOLEANO: " +  isCorrect);
         Optional<Usuario> usuarioOptional = usuarioService.getUserById(userId);
         if (usuarioOptional.isEmpty()) {
             return ResponseEntity.status(404).body("Usuario no encontrado");
@@ -50,34 +49,50 @@ public class RespuestaXUsuarioServices {
         if (respUserOptional.isPresent()) {
             respUser = respUserOptional.get();
             respUser.setNumeroIntentos(respUser.getNumeroIntentos() + 1);
+            System.out.println("miremos");
+            System.out.println(!respUser.getRespuesta().isEsCorrecta() && isCorrect);
+            if(!respUser.getRespuesta().isEsCorrecta() && isCorrect) {
+                respuesta.setEsCorrecta(true);
+                respUser.getUsuario().setPuntosLiga(respUser.getUsuario().getPuntosLiga() + 10);
+                if (respUser.getUsuario().getPuntosLiga() == 70) {
+                    Optional<Liga> liga = ligaServices.getLigaById(2);
+                    Liga actualLiga = liga.get();
+                    respUser.getUsuario().setLiga(actualLiga);
+
+                }else if (respUser.getUsuario().getPuntosLiga() == 100) {
+                    Optional<Liga> liga = ligaServices.getLigaById(3);
+                    Liga actualLiga = liga.get();
+                    respUser.getUsuario().setLiga(actualLiga);
+                }
+                usuarioRepository.save(usuario);
+            }
             respuestaRepository.save(respUser);
 
         } else {
-
-            if(isCorrect){
-                usuario.setPuntosLiga(usuario.getPuntosLiga() + 10);
-                if (usuario.getPuntosLiga() == 70) {
-                    Optional<Liga> liga = ligaServices.getLigaById(2);
-                    Liga actualLiga = liga.get();
-                    usuario.setLiga(actualLiga);
-
-                }else if (usuario.getPuntosLiga() == 100) {
-                    Optional<Liga> liga = ligaServices.getLigaById(3);
-                    Liga actualLiga = liga.get();
-                    usuario.setLiga(actualLiga);
-                }
-                usuarioRepository.save(usuario);
-
-            }
-
             respUser = new RespuestaXUsuario();
             respUser.setUsuario(usuario);
             respUser.setRespuesta(respuesta);
             respUser.setEsCorrecta(isCorrect);
             respUser.setNumeroIntentos(1);
             respUser.setFecha(new Timestamp(System.currentTimeMillis()));
+            if(isCorrect){
+                respUser.getUsuario().setPuntosLiga(respUser.getUsuario().getPuntosLiga() + 10);
+                if (respUser.getUsuario().getPuntosLiga() == 70) {
+                    Optional<Liga> liga = ligaServices.getLigaById(2);
+                    Liga actualLiga = liga.get();
+                    respUser.getUsuario().setLiga(actualLiga);
+
+                }else if (usuario.getPuntosLiga() == 100) {
+                    Optional<Liga> liga = ligaServices.getLigaById(3);
+                    Liga actualLiga = liga.get();
+                    respUser.getUsuario().setLiga(actualLiga);
+                }
+                usuarioRepository.save(usuario);
+            }
+
+
             respuestaRepository.save(respUser);
         }
-        return ResponseEntity.ok("answer send");
+        return ResponseEntity.ok(respUser);
     }
 }

@@ -4,6 +4,8 @@
  */
 package com.estructuras.app.Backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -14,6 +16,8 @@ import lombok.Setter;
  *
  * @author Miguel
  */
+
+@JsonIgnoreProperties
 @Entity
 @Getter @Setter
 @Table(name = "usuarios")
@@ -30,7 +34,7 @@ public class Usuario {
     
     @Column(name = "password", nullable = false)
     private String password;  // Password field added
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_liga")
     private Liga liga;
@@ -43,7 +47,7 @@ public class Usuario {
 
     @Column(name = "biografia")
     private String biografia;
-
+//    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_programa_academico")
 //    private ProgramaAcademico programaAcademico;
